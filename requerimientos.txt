@@ -1,0 +1,33 @@
+Administracion de informacion sobre restaurante
+-Posibilidad de que los clientes levanten un pedido sobre la pagina web
+Dos usuarios
+	Administrador
+		Agregar productos nuevos
+		Eliminar productos
+		Actualizar precios
+		Enviar correos con promociones a todos los clientes
+		Categorizar productos
+			Postres, bebidas, comidas
+			Desayunos, comidas, cenas
+	Cliente final
+		Pagina principal
+			Mostrar productos dependiendo de la categoria/hora
+			Mostrar productos mas vendidos
+			Visualizar productos : nombre, imagen, descripcion, precio
+			Visualizacion individual de cada producto agregar a carrito
+			Carrito de compras
+			Mostrar mensaje de compra realizada
+		Informacion
+			nombre
+			direccion obligada
+			telefono
+			correo
+			numero de tarjeta 16 digitos
+			Avatar
+Metodologia
+	Analisis y diseño
+		Artefactos
+		
+
+
+
