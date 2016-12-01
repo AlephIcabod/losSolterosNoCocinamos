@@ -19,9 +19,7 @@ var Promocion=database.define("Promocion",{
 	}},
 	{
 	timestamps: false,
-	freezeTableName: false
-	
-
+	freezeTableName: false	
 });
 
 module.exports=Promocion;

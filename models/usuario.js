@@ -2,25 +2,26 @@ var conexion=require("../conexion");
 var database=conexion.database;
 var Sequelize=conexion.Sequelize;
 
-var Cliente=database.define("Cliente",{
-	id_cliente: {
+var Usuario=database.define("Usuario",{
+	id_usuario: {
 		type: Sequelize.INTEGER,
 		primaryKey: true,
 		autoIncrement: true		
 	},
-	nombre:{
+	username:{
+		type:Sequelize.STRING,
+		unique:true
+	},
+	password:{
 		type:Sequelize.STRING
 	},
-	direccion:{
+	avatar:{
 		type:Sequelize.STRING
 	},
-	telefono:{
+	tipo:{
 		type:Sequelize.STRING
+	}
 	},
-	num_tarjeta:{
-		type:Sequelize.STRING
-	},	
-	correo:{type:Sequelize.STRING}},
 	{
 	timestamps: false,
 	freezeTableName: false,	
@@ -28,4 +29,4 @@ var Cliente=database.define("Cliente",{
 );
 
 
-module.exports=Cliente;
+module.exports=Usuario;

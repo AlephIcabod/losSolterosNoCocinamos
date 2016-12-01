@@ -4,37 +4,48 @@ var Cliente = require("./models/cliente");
 var Promocion = require("./models/promocion");
 var DetalleVenta = require("./models/DetalleVenta");
 var ProductoPromocion = require("./models/ProductoPromocion");
+var Usuario = require("./models/usuario");
 
 Venta.belongsToMany(Producto, {
-    through: "DetalleVenta"
+  through: "DetalleVenta"
 });
 Producto.belongsToMany(Venta, {
-    through: "DetalleVenta"
+  through: "DetalleVenta"
 });
 Cliente.hasMany(Venta, {
-    as: "idCliente",
-    foreignKey: "id_cliente"
+  as: "idCliente",
+  foreignKey: "id_cliente"
 });
-Venta.belongsTo(Cliente, {
-    as: "idCliente",
-    foreignKey: "id_cliente"
-});
+
 Producto.belongsToMany(Promocion, {
-    through: "ProductoPromocion"
+  through: "ProductoPromocion"
 });
 Promocion.belongsToMany(Producto, {
-    through: "ProductoPromocion"
+  through: "ProductoPromocion"
 });
-Cliente.sync().then(function(e) {
-    Venta.sync().then(function(e) {
-        Producto.sync().then(function() {
-            Promocion.sync().then(function(e) {
-                DetalleVenta.sync().then(function(e) {
-                    ProductoPromocion.sync().then(function(e) {
-                        console.log("Modelos creados");
-                    });
-                });
-            });
-        });
-    });
-});
+Cliente.belongsTo(Usuario, {
+  as: "idUsuario",
+  foreignKey: "id_usuario"
+})
+Usuario.sync()
+  .then(function (e) {
+    Cliente.sync()
+      .then(function (e) {
+        Venta.sync()
+          .then(function (e) {
+            Producto.sync()
+              .then(function () {
+                Promocion.sync()
+                  .then(function (e) {
+                    DetalleVenta.sync()
+                      .then(function (e) {
+                        ProductoPromocion.sync()
+                          .then(function (e) {
+                            console.log("Modelos creados");
+                          });
+                      });
+                  });
+              });
+          });
+      });
+  });

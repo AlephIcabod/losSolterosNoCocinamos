@@ -7,16 +7,17 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 
-
 //rutas api
+var usuario = require("./routes/usuarios");
 var producto = require('./routes/producto');
-var cliente=require("./routes/cliente");
-var conexion=require("./conexion");
-
+var promocion = require("./routes/promocion");
+var cliente = require("./routes/cliente");
+var conexion = require("./conexion");
+var venta = require("./routes/ventas");
 
 var app = express();
 
-var db=require("./db");
+var db = require("./db");
 
 
 
@@ -29,22 +30,30 @@ app.use(express.static("public"));
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({
+  limit: "50mb"
+}));
+app.use(bodyParser.urlencoded({
+  limit: "50mb",
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.get("/app",function(req,res){
-    res.sendFile(__dirname + "/public/templates/inicio.html");
+app.get("/app", function (req, res) {
+  res.sendFile(__dirname + "/public/templates/inicio.html");
 })
 
 
 app.use('/', routes);
 app.use('/api/producto', producto);
-app.use("/api/cliente",cliente);
+app.use("/api/cliente", cliente);
+app.use("/api/usuario", usuario);
+app.use("/api/promocion", promocion);
+app.use("/api/venta", venta);
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
@@ -56,7 +65,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
+  app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
       message: err.message,
@@ -67,7 +76,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
