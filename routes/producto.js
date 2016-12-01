@@ -24,7 +24,8 @@ var upload = multer({
 /* GET users listing. */
 router.get('/', function (req, res, next) {
     Producto.findAll({
-        where: req.query
+        where: req.query,
+        sort: "id_producto"
       })
       .then(function (d) {
         if (d) {
@@ -84,7 +85,7 @@ router.get('/', function (req, res, next) {
   .put("/:id", upload.array("imagenes", 5), function (req, res, next) {
     var files = req.files;
     var productoActualizado = req.body.producto;
-    if (files.length > 0) {
+    if (files) {
       for (j = 0; j < files.length; j++) {
         productoActualizado.imagenes.push(files[i].path);
       }
@@ -103,7 +104,7 @@ router.get('/', function (req, res, next) {
               if (d) {
                 res.status(200)
                   .json({
-                    producto: d
+                    producto: d[1][0]
                   })
               } else {
                 res.status(500)
@@ -159,12 +160,13 @@ router.get('/', function (req, res, next) {
   });
 router.post("/", upload.array("imagenes", 5), function (req, res, next) {
   var producto = {
-    nombre_producto: req.body.nombre_producto,
-    descripcion: req.body.descripcion,
-    precio: req.body.precio,
-    categorias: [req.body.categorias],
-    imagenes: []
-  }
+      nombre_producto: req.body.nombre_producto,
+      descripcion: req.body.descripcion,
+      precio: req.body.precio,
+      categorias: [req.body.categorias],
+      imagenes: []
+    }
+    //producto = req.body.producto;
   var files = req.files;
   for (i = 0; i < files.length; i++) {
     producto.imagenes.push(files[i].path);
@@ -172,7 +174,9 @@ router.post("/", upload.array("imagenes", 5), function (req, res, next) {
   Producto.create(producto)
     .then(function (d) {
       res.status(201)
-        .json(d)
+        .json({
+          producto: d
+        })
     })
 });
 

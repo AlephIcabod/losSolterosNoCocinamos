@@ -44,7 +44,7 @@ router.get("/", function (req, res, next) {
   .post("/", function (req, res, next) {
     var productos = [];
     for (i = 0; i < req.body.productos.length; i++) {
-      productos.push(req.body.productos[i].id_producto);
+      productos.push(req.body.productos[i]);
     };
     var promocion = req.body.promocion;
     Promocion.create(promocion)
@@ -56,13 +56,13 @@ router.get("/", function (req, res, next) {
           .then(function (d) {
             Promocion.findById(id)
               .then(function (r) {
-                console.log(id);
                 if (r) {
                   r.getProductos()
                     .then(function (d) {
                       res.status(201)
                         .json({
-                          promocion: d
+                          promocion: r,
+                          productos: d
                         })
                     })
                 }
@@ -79,7 +79,7 @@ router.get("/", function (req, res, next) {
   .put("/:id", function (req, res, next) {
     var productos = [];
     for (i = 0; i < req.body.productos.length; i++) {
-      productos.push(req.body.productos[i].id_producto);
+      productos.push(req.body.productos[i]);
     };
     var promocion = req.body.promocion;
     Promocion.findById(req.params.id)
@@ -99,7 +99,9 @@ router.get("/", function (req, res, next) {
                   .then(function (d) {
                     res.status(200)
                       .json({
-                        promocion: d
+                        promocion: p[1][0],
+                        productos: d
+
                       });
                   });
               });
