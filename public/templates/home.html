@@ -1,0 +1,12 @@
+<article >
+	<div class="row" ng-repeat="producto in control.productos">
+        <div class="callout">
+          <img src="{{producto.imagenes[0]}}" alt="" height="80px" width="100px">
+          <div class="large-12">
+            <h4><b>{{producto.nombre_producto}}</b></h4>
+            <h5>{{producto.descripcion}}</h5>
+            <h6>{{producto.precio}} <button type="button" class="success button">Agregar al carrito</button></h6>
+          </div>
+        </div>        
+    </div>	
+</article>
