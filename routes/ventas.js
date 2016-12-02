@@ -6,8 +6,10 @@ var Cliente = require("../models/cliente");
 var promocion = require("../models/ProductoPromocion");
 var Producto = require("../models/producto");
 var path = require("path");
+var login = require("../login");
 
-router.get("/", function (req, res, next) {
+
+router.get("/", login.autenticarAdmin, function (req, res, next) {
     Venta.findAll({
         where: req.query
       })
@@ -18,7 +20,7 @@ router.get("/", function (req, res, next) {
           })
       })
   })
-  .get("/:id", function (req, res, next) {
+  .get("/:id", login.autenticar, function (req, res, next) {
     Venta.findById(req.params.id)
       .then(function (venta) {
         if (venta) {
@@ -38,7 +40,7 @@ router.get("/", function (req, res, next) {
         }
       });
   })
-  .post("/", function (req, res, next) {
+  .post("/", login.autenticar, function (req, res, next) {
     var productos = req.body.productos;
     var venta = req.body.venta;
     Venta.create(venta)
@@ -72,7 +74,7 @@ router.get("/", function (req, res, next) {
           });
       })
   })
-  .delete("/:id", function (req, res) {
+  .delete("/:id", login.autenticarAdmin, function (req, res) {
     Venta.destroy({
         where: {
           id_venta: req.params.id

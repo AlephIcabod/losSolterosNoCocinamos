@@ -48,3 +48,4 @@ Temporary Items
 node_modules/*/*
 conexion.js
 public/bower_components/*/*
+public/images/productos/*

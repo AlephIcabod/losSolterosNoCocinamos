@@ -8,13 +8,14 @@ var sequelize = require("../conexion")
 var path = require("path");
 var multer = require("multer");
 var fs = require("fs");
+var login = require("../login")
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './public/images/productos')
+    cb(null, './uploads/productos')
   },
   filename: function (req, file, cb) {
-    cb(null, "producto-" + Date.now())
+    cb(null, "producto-" + Date.now() + file.originalname)
   }
 });
 
@@ -50,7 +51,7 @@ router.get('/', function (req, res, next) {
         productos = []
         datos.forEach(function (i) {
           productos.push({
-            cantidad: aux(i.Venta),
+            cantidad: calcularVentas(i.Venta),
             id_producto: i.id_producto
           });
         })
@@ -82,7 +83,7 @@ router.get('/', function (req, res, next) {
         }
       });
   })
-  .put("/:id", upload.array("imagenes", 5), function (req, res, next) {
+  .put("/:id", login.autenticarAdmin, upload.array("imagenes", 5), function (req, res, next) {
     var files = req.files;
     var productoActualizado = req.body.producto;
     if (files) {
@@ -104,7 +105,7 @@ router.get('/', function (req, res, next) {
               if (d) {
                 res.status(200)
                   .json({
-                    producto: d[1][0]
+                    producto: d
                   })
               } else {
                 res.status(500)
@@ -116,6 +117,7 @@ router.get('/', function (req, res, next) {
         });
 
     } else {
+
       Producto.update(productoActualizado, {
           where: {
             id_producto: req.params.id
@@ -137,7 +139,7 @@ router.get('/', function (req, res, next) {
         })
     }
   })
-  .delete("/:id", function (req, res, next) {
+  .delete("/:id", login.autenticarAdmin, function (req, res, next) {
     var imagenes;
     Producto.findById(req.params.id)
       .then(function (d) {
@@ -158,7 +160,7 @@ router.get('/', function (req, res, next) {
           });
       });
   });
-router.post("/", upload.array("imagenes", 5), function (req, res, next) {
+router.post("/", login.autenticarAdmin, upload.array("imagenes", 5), function (req, res, next) {
   var producto = {
       nombre_producto: req.body.nombre_producto,
       descripcion: req.body.descripcion,
@@ -182,7 +184,7 @@ router.post("/", upload.array("imagenes", 5), function (req, res, next) {
 
 
 
-function aux(ventas) {
+function calcularVentas(ventas) {
   var x = 0;
   ventas.forEach(function (i) {
     x += i.DetalleVenta.cantidad

@@ -4,13 +4,14 @@ var Usuario = require("../models/usuario");
 var path = require("path");
 var multer = require("multer");
 var fs = require("fs");
+var login = require("../login");
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './public/images/avatar')
+    cb(null, './uploads/avatar')
   },
   filename: function (req, file, cb) {
-    cb(null, "avatar-" + Date.now())
+    cb(null, "avatar-" + Date.now() + file.originalname)
   }
 })
 
@@ -62,8 +63,7 @@ router.post("/", upload.single("avatar"), function (req, res, next) {
         }
       })
   })
-  .put("/:id", function (req, res, next) {
-    console.log(req.params.id)
+  .put("/:id", login.autenticar, function (req, res, next) {
     var actualizacion = {
       password: req.body.password
     };
@@ -88,7 +88,7 @@ router.post("/", upload.single("avatar"), function (req, res, next) {
         }
       })
   })
-  .put("/:id/avatar", upload.single("avatar"), function (req, res, next) {
+  .put("/:id/avatar", login.autenticar, upload.single("avatar"), function (req, res, next) {
     var avatar = req.file;
     Usuario.findById(req.params.id)
       .then(function (d) {
@@ -125,7 +125,7 @@ router.post("/", upload.single("avatar"), function (req, res, next) {
         }
       })
   })
-  .delete("/:id", function (req, res, next) {
+  .delete("/:id", login.autenticar, function (req, res, next) {
     Usuario.findById(req.params.id)
       .then(function (d) {
         if (d) {

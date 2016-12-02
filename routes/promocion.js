@@ -4,7 +4,7 @@ var Promocion = require("../models/promocion");
 var ProductoPromocion = require("../models/ProductoPromocion");
 var Producto = require("../models/producto");
 var Sequelize = require("Sequelize");
-
+var login = require("../login");
 
 router.get("/", function (req, res, next) {
     Promocion.findAll({
@@ -13,23 +13,52 @@ router.get("/", function (req, res, next) {
         }]
       })
       .then(function (d) {
+        var aux = d.map(function (item) {
+          item.Productos = item.Productos.map(function (pro) {
+            return {
+              id_producto: pro.id_producto,
+              nombre_producto: pro.nombre_producto,
+              precio: pro.precio,
+              precioPromocion: pro.ProductoPromocion.nuevoPrecio,
+              descripcion: pro.descripcion,
+              imagenes: pro.imagenes
+            }
+          });
+          return {
+            Productos: item.Productos,
+            id_promocion: item.id_promocion,
+            descripcion: item.descripcion,
+            vigencia: item.vigencia,
+            tip: item.tipo
+          }
+        })
         res.status(200)
           .json({
-            promociones: d
+            promociones: aux
           });
       });
   })
   .get("/:id", function (req, res, next) {
     Promocion.findById(req.params.id)
       .then(function (d) {
-        console.log(d)
         if (d) {
           d.getProductos()
             .then(function (p) {
+              var aux = p.map(function (i) {
+                return {
+                  id_producto: i.id_producto,
+                  nombre_producto: i.nombre_producto,
+                  precio: i.precio,
+                  precioPromocion: i.ProductoPromocion.nuevoPrecio,
+                  descripcion: i.descripcion,
+                  imagenes: i.imagenes
+                }
+              })
+
               res.status(200)
                 .json({
                   promocion: d,
-                  productos: p
+                  productos: aux
                 });
             })
 
@@ -41,7 +70,7 @@ router.get("/", function (req, res, next) {
         }
       })
   })
-  .post("/", function (req, res, next) {
+  .post("/", login.autenticarAdmin, function (req, res, next) {
     var productos = [];
     for (i = 0; i < req.body.productos.length; i++) {
       productos.push(req.body.productos[i]);
@@ -76,7 +105,7 @@ router.get("/", function (req, res, next) {
           });
       });
   })
-  .put("/:id", function (req, res, next) {
+  .put("/:id", login.autenticarAdmin, function (req, res, next) {
     var productos = [];
     for (i = 0; i < req.body.productos.length; i++) {
       productos.push(req.body.productos[i]);
@@ -108,7 +137,7 @@ router.get("/", function (req, res, next) {
           });
       });
   })
-  .delete("/:id", function (req, res, next) {
+  .delete("/:id", login.autenticarAdmin, function (req, res, next) {
     Promocion.destroy({
         where: {
           id_promocion: req.params.id

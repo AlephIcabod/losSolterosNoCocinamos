@@ -5,8 +5,9 @@ var Usuario = require("../models/usuario");
 var Venta = require("../models/venta")
 var multer = require("multer");
 var fs = require("fs");
+var login = require("../login");
 
-router.get("/", function (req, res, next) {
+router.get("/", login.autenticarAdmin, function (req, res, next) {
     Cliente.findAll({
         where: req.query
       })
@@ -24,7 +25,7 @@ router.get("/", function (req, res, next) {
         }
       });
   })
-  .get("/:id", function (req, res, next) {
+  .get("/:id", login.autenticar, function (req, res, next) {
     Cliente.findById(req.params.id)
       .then(function (d) {
         if (d) {
@@ -40,7 +41,7 @@ router.get("/", function (req, res, next) {
         }
       })
   })
-  .get("/:id/ventas", function (req, res, next) {
+  .get("/:id/ventas", login.autenticar, function (req, res, next) {
     Cliente.findById(req.params.id)
       .then(function (cliente) {
         if (cliente) {
@@ -65,7 +66,7 @@ router.get("/", function (req, res, next) {
         }
       });
   })
-  .post("/", function (req, res, next) {
+  .post("/", login.autenticar, function (req, res, next) {
     Usuario.findById(req.body.cliente.id_usuario)
       .then(function (d) {
         if (d) {
@@ -98,7 +99,7 @@ router.get("/", function (req, res, next) {
       });
 
   })
-  .put("/:id", function (req, res, next) {
+  .put("/:id", login.autenticar, function (req, res, next) {
     Cliente.update(req.body.cliente, {
         where: {
           id_cliente: req.params.id
@@ -119,7 +120,7 @@ router.get("/", function (req, res, next) {
         }
       })
   })
-  .delete("/:id", function (req, res, next) {
+  .delete("/:id", login.autenticarAdmin, function (req, res, next) {
     Cliente.destroy({
         where: {
           id_cliente: req.params.id
