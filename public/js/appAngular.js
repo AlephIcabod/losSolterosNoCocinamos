@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 (function () {
   var app = angular.module("app", ["ngRoute", "satellizer"])
     .controller("loginController", ["$auth", "$location", function ($auth, $location) {
@@ -100,6 +99,3 @@ function omitir($q, $auth, $location) {
   }
   return defer.promise;
 }
-=======
-$(document).foundation()
->>>>>>> 618a3e44692d438eb623d41b02958b14d3a8ddb3
