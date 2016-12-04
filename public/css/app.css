@@ -13,11 +13,11 @@ header{
 	background-color: rgb(113,86,75);
 }
 
-a{
+header a{
 	color: white;
 }
 
-li:hover{
+header li:hover{
 	background-color: rgb(86,65,58);
 }
 
@@ -30,7 +30,7 @@ ul{
 	display: inline-block;
 }
 
-h4,h5,h6{
+h1,h2,h3,h4,h5,h6,p{
 	text-align: left;
 	display: block;
 }
@@ -40,22 +40,37 @@ h4,h5,h6{
 }
 
 button{
-	float: right;
 	display: inline-block;
 }
 
-.small-8{
-	margin-top: 3%;
+.small-3{
 	display: inline-block;
-}
-
-.small-8 a{
+	text-align: center;
+	margin-top: 1%;
+	margin-right: 1%;
+	padding-top: 1%;
+	border: 1px solid rgb(156,193,84);	
 	color: black;
-	float: left;
 }
 
-.small-8 label{
-	float: left;
-	padding-right: 1%;
+.row{
+	text-align: center;
 }
 
+.descripcion{
+	color: black;
+}
+
+.tabs li{
+	display: inline;
+}
+
+.small-2 a{
+	text-align: center;
+	display: block;
+	color: black;
+}
+
+.small-2 img{
+	display: inline-block;
+}
