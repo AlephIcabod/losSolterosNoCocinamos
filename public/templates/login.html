@@ -1,0 +1,83 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Los solteros no cocinamos</title>
+    <link rel="stylesheet" href="../css/foundation.css">
+    <link rel="stylesheet" href="../css/app.css">
+  </head>
+  <body>
+    <header>
+      <img src="../images/logo.png" alt="Logo">
+        <div class = "row">
+          <ul class="dropdown menu" data-dropdown-menu>
+            <li>
+              <a href="#"><img src="../images/dinner.png" alt="Menu"><b>Menu</b></a>
+              <ul class="menu">
+                <li><a href="#"><img src="../images/plate-fork-and-knife.png" alt="Comidas"><b>Comidas</b></a></li>
+                <li><a href="#"><img src="../images/tea-cup.png" alt="Bebidas"><b>Bebidas</b></a></li>
+                <li><a href="#"><img src="../images/cupcake.png" alt="Postres"><b>Postres</b></a></li>
+              </ul>
+            </li>
+            <li><a href="#"><img src="../images/star.png" alt="Combos"><b>Combos y promociones</b></a></li>
+            <li><a href="#"><img src="../images/shopping-cart.png" alt="Carrito"><b>Mi carrito</b></a></li>
+            <li><a href="#"><img src="../images/user.png" alt="User"><b>Mi cuenta</b></a></li>
+          </ul>
+        </div>
+      </header>
+      <div class="row" id="login">
+        <div class="small-8">
+          <input type="text" placeholder="Nombre de usuario">
+          <input type="password" placeholder="Contraseña">
+          <a href="#"><u>Olvide mi contraseña</u></a>
+          <button class="success button">
+              Ingresar
+          </button>
+        </div>
+        <div class="small-8">
+          <label for="" >¿No tienes cuenta? </label>
+          <a href="#clearfix" onclick="esconde()"><u>Registrate aqui</u></a>
+        </div>
+      </div>
+      <div class="row" id="signup">
+        <h5 style="text-align: center; margin-top: 2%;">Registro
+          <label for="">Proporciona tus datos</label>
+        </h5>
+        <div class="small-8">
+          <input type="text" placeholder="Nombre(s)">
+          <input type="text" placeholder="Apellidos">
+          <input type="text" placeholder="Nombre de usuario">
+          <input type="password" placeholder="Contraseña">
+          <input type="email" placeholder="Correo electronico">
+          <input type="text" placeholder="Direccion">
+          <input type="text" placeholder="Numero telefonico">
+          <input type="password" placeholder="Numero de tarjeta de crédito" maxlength="16">
+          
+          <input type="checkbox" name="" id="" style="float: left;">
+          <label for="">Acepto los terminos y condiciones</label>
+          <button class="alert button" onclick="hide()">
+            Cancelar
+          </button>
+          <button class="success button" style="margin-right: 2%;">
+              Crear cuenta
+          </button>
+        </div>
+      </div>
+    <script src="../js/vendor/jquery.js"></script>
+    <script src="../js/vendor/what-input.js"></script>
+    <script src="../js/vendor/foundation.js"></script>
+    <script src="../js/app.js"></script>
+    <script type="text/javascript">
+        document.getElementById('signup').style.display = 'none';
+        function esconde(){
+          document.getElementById('login').style.display = 'none';
+          document.getElementById('signup').style.display = '';
+        }
+        function hide(){
+          document.getElementById('signup').style.display = 'none';
+          document.getElementById('login').style.display = '';
+        }
+      </script>
+  </body>
+</html>

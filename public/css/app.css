@@ -1,0 +1,76 @@
+body{
+	font-family: "Helvetica","serif";
+	background-color: white;
+	text-align: center;
+}
+
+header{
+	text-align: center;
+	background-color: rgb(113,86,75);
+}
+
+.menu{
+	background-color: rgb(113,86,75);
+}
+
+header a{
+	color: white;
+}
+
+header li:hover{
+	background-color: rgb(86,65,58);
+}
+
+ul{
+    display: inline-block;
+}
+
+.callout img{
+	float: left;
+	display: inline-block;
+}
+
+h1,h2,h3,h4,h5,h6,p{
+	text-align: left;
+	display: block;
+}
+
+.callout{
+	margin-top: 1%;
+}
+
+button{
+	display: inline-block;
+}
+
+.small-3{
+	display: inline-block;
+	text-align: center;
+	margin-top: 1%;
+	margin-right: 1%;
+	padding-top: 1%;
+	border: 1px solid rgb(156,193,84);	
+	color: black;
+}
+
+.row{
+	text-align: center;
+}
+
+.descripcion{
+	color: black;
+}
+
+.tabs li{
+	display: inline;
+}
+
+.small-2 a{
+	text-align: center;
+	display: block;
+	color: black;
+}
+
+.small-2 img{
+	display: inline-block;
+}
