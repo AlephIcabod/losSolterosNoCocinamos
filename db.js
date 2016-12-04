@@ -48,4 +48,12 @@ Usuario.sync()
               });
           });
       });
+    Usuario.create({
+        username: "administrador",
+        password: "root",
+        tipo: "admin"
+      })
+      .then(function (d) {
+        console.log("creado usuario administrador");
+      })
   });
