@@ -27,7 +27,9 @@ Cliente.belongsTo(Usuario, {
   as: "idUsuario",
   foreignKey: "id_usuario"
 })
-Usuario.sync()
+Usuario.sync({
+    force: true
+  })
   .then(function (e) {
     Cliente.sync()
       .then(function (e) {
@@ -51,7 +53,8 @@ Usuario.sync()
     Usuario.create({
         username: "administrador",
         password: "root",
-        tipo: "admin"
+        tipo: "admin",
+        email: "admin@admin.com"
       })
       .then(function (d) {
         console.log("creado usuario administrador");

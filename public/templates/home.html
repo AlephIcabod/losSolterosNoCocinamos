@@ -1,0 +1,17 @@
+<article>
+  <div class="row" data-equalizer="foo" ng-repeat="producto in control.productos">
+    <div class="small-3 columns" data-equalizer-watch>
+      <div class="panel" data-equalizer-watch="foo">
+        <img src="{{producto.imagenes[0]}}" alt="">
+        <h5><b>{{producto.nombre_producto}}</b></h5>
+        <a href="#/producto/{{producto.id_producto}}" class="descripcion" data-open="uno">
+          <h6>{{producto.descripcion}}</h6>
+        </a>
+        <h6><u>{{producto.precio}}</u></h6>
+        <button type="button" class="success button radius">
+        Agregar a carrito
+        </button>
+      </div>
+    </div>   
+  </div>
+</article>

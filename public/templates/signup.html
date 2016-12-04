@@ -1,0 +1,17 @@
+<article>
+<h1>Registro  
+</h1>
+<div class="small-6 small-centered">
+  
+  <input type="text" placeholder="Nombre de usuario" ng-model="control.username" >
+  <input type="password" placeholder="Contraseña" ng-model="control.password">
+  <input type="password" placeholder="Contraseña" ng-model="control.confirmPassword">
+  <input type="email" placeholder="Correo electronico" ng-model="control.email"> 
+  <p ng-show="control.error">Las contraseñas deben coincidir</p>   
+  <a href="#/" class="alert button">
+    Cancelar
+  </a>
+  <button ng-click="control.signup()" class="success button">
+      Crear cuenta
+  </button>
+</div></article>  

@@ -1,6 +1,6 @@
 (function () {
   var app = angular.module("app", ["ngRoute", "satellizer"])
-    .controller("loginController", ["$auth", "$location", function ($auth, $location) {
+    .controller("loginController", ["$scope", "$auth", "$location", function ($scope, $auth, $location) {
       console.log("corriendo");
       var control = this;
       control.username;
@@ -11,7 +11,8 @@
             password: control.password
           })
           .then(function (d) {
-            console.log(d);
+            $scope.$parent.usuario = d.data.id_usuario;
+            console.log($scope.$parent)
             $location.path("/cuenta");
           })
           .catch(function (e) {
@@ -19,22 +20,39 @@
           })
       }
     }])
-    .controller("signUpController", ["$auth", "$location", function ($auth, $location) {
+    .controller("signUpController", ["$scope", "$auth", "$location", function ($scope, $auth, $location) {
       var control = this;
       control.tipo = "cliente";
       this.signup = function () {
-        $auth.signup({
-            username: control.username,
-            password: control.password,
-            tipo: control.tipo
-          })
-          .then(function (d) {
-            console.log(d.data.usuario)
-            $location.path("/cuenta");
-          })
-          .catch(function (response) {
-            console.log(response)
-          });
+        if (control.password === control.confirmPassword) {
+          $auth.signup({
+              username: control.username,
+              password: control.password,
+              tipo: control.tipo,
+              email: control.email
+            })
+            .then(function (d) {
+              $auth.login({
+                  username: d.data.usuario.username,
+                  password: control.password
+                })
+                .then(function (d) {
+                  $scope.$parent.usuario = d.data.id_usuario;
+                  console.log($scope.$parent)
+                  $location.path("/cuenta");
+                })
+                .catch(function (e) {
+                  console.log(e);
+                })
+
+            })
+            .catch(function (response) {
+              console.log(response)
+            });
+        } else {
+          control.error = true;
+
+        }
       }
     }])
     .controller("logOutController", [])
@@ -62,7 +80,9 @@
           controller: "cuentaController",
           controllerAs: "control",
           templateUrl: "templates/cuenta.html",
-          authenticated: true
+          resolve: {
+            mostrar: revisar
+          }
         })
         .when("/login", {
           controller: "loginController",
@@ -77,7 +97,10 @@
           controller: "signUpController",
           controllerAs: "control",
           templateUrl: "templates/signup.html",
-          authenticated: false
+          authenticated: false,
+          resolve: {
+            skip: omitir
+          }
         })
         .when("/carrito", {
           controller: "carritoController",
@@ -98,4 +121,14 @@ function omitir($q, $auth, $location) {
     defer.resolve(); /* (2) */
   }
   return defer.promise;
+}
+
+function revisar($q, $auth, $location) {
+  var defer = $q.defer()
+  if ($auth.isAuthenticated()) {
+    console.log("hay un usuario");
+    defer.resolve();
+  } else {
+    $location.path("/login");
+  }
 }

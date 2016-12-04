@@ -9,8 +9,10 @@ var registro = function (req, res, next) {
   var usuario = {
     username: req.body.username,
     password: req.body.password,
-    tipo: req.body.tipo
+    tipo: req.body.tipo,
+    email: req.body.email
   };
+
   usuario.avatar = "public/images/avatar/default.jpg";
   Usuario.create(usuario)
     .then(function (d) {
@@ -36,6 +38,7 @@ var registro = function (req, res, next) {
 }
 
 var login = function (req, res, next) {
+  console.log(req.body)
   Usuario.findOne({
       where: {
         username: req.body.username
@@ -43,18 +46,24 @@ var login = function (req, res, next) {
     })
     .then(function (d) {
       var aux;
-      if (d.tipo == "admin") aux = true;
-      else aux = false;
-      if (d.password === req.body.password)
-        res.status(200)
-        .json({
-          token: service.createToken(d.username, aux)
-        })
-      else {
-        res.status(401)
+      if (d) {
+        if (d.tipo == "admin") aux = true;
+        else aux = false;
+        if (d.password === req.body.password)
+          res.status(200)
           .json({
-            message: "contraseña incorrecta"
-          });
+            id_usuario: d.id_usuario,
+            token: service.createToken(d.username, aux)
+          })
+        else {
+          res.status(401)
+            .json({
+              message: "contraseña incorrecta"
+            });
+        }
+      } else {
+        res.status(400)
+          .json("usuario no existente");
       }
     })
 }

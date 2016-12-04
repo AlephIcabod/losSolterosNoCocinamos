@@ -1,0 +1,17 @@
+<article>
+      <div class="row">
+        <h1>Iniciar sesion</h1>
+        <div class="small-8 small-centered">
+          <input type="text" placeholder="Nombre de usuario" ng-model="control.username" required>
+          <input type="password" placeholder="Contraseña" ng-model="control.password" required>
+          <a href="#/recuperarPassword"><u>Olvide mi contraseña</u></a>
+          <button class="success button" ng-click="control.login()">
+              Ingresar
+          </button>
+        </div>
+        <div class="small-12 small-centered">
+          <label for="" >¿No tienes cuenta? </label>
+          <a href="#/signup"><u>Registrate aqui</u></a>
+        </div>
+      </div>
+</article>

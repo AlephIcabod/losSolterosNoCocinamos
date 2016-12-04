@@ -62,6 +62,20 @@ var app = angular.module("app")
       peticiones.getCarrito()
     }
   }])
-  .controller("cuentaController", [function () {
+  .controller("cuentaController", ["$scope", "$http", "$auth", "$location", function ($scope, $http, $auth, $location) {
+    console.log($scope.$parent.usuario)
+    if ($scope.$parent.usuario === undefined) {
+      $auth.logout();
+      $location.path("/login")
+    }
 
+    var control = this;
+    control.usuario;
+    $http.get("/api/usuario/" + $scope.$parent.usuario)
+      .success(function (d) {
+        control.usuario = d.usuario;
+      })
+      .error(function (e) {
+        console.log(e)
+      })
   }]);

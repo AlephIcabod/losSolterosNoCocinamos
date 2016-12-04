@@ -1,0 +1,37 @@
+<article>
+	<div id="uno" class="small-12 small-centered columns">
+        <div class="small-5 columns">
+          <h2><b>{{control.producto.nombre_producto}}</b></h2>
+          <p>{{control.producto.descripcion}}
+          <br>
+          <br>
+          <b>Precio:</b> {{control.producto.precio}}
+          </p>
+          <p><b>Cantidad:</b>
+            <input type="number" min="1" ng-model="control.cantidad">
+          </p>
+          <button class="warning button">
+            Agregar a carrito
+          </button>
+        </div>
+        <div class="small-4 columns">
+          <div class="panel" style="border: 1px solid rgb(228,150,36); margin-top: 10%;" >
+            <img src="{{control.producto.imagenes[0]}}" alt="" height="150px" width="150px">
+          </div>
+          <ul class="tabs" style="top: 10%;" data-tab>
+            <li class="tab-title active"><a href="#panel1"><img src="{{control.producto.imagenes[1]}}" alt="" height="50px" width="50px"></a></li>
+            <li class="tab-title"><a href="#panel2"><img src="{{control.producto.imagenes[2]}}" alt="" height="50px" width="50px"></a></li>            
+          </ul>
+        </div>
+
+        <div class="small-2 columns">
+          <div class="panel" style="border: 1px solid rgb(228,150,36); margin-top: 10%;">
+          <h6 style="text-align: center;"><b>Promociones</b></h6>
+            <a href="" style="display: block;">
+                <img src="../images/mctrio.png" alt="" height="60px" width="60px">
+                <b><br>Trio - </b><small style="color: black;">$80.00</small>
+            </a>
+          </div>
+        </div>
+      </div>
+</article>
