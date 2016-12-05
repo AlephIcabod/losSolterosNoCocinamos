@@ -2,16 +2,25 @@
 <h1>Registro  
 </h1>
 <div class="small-6 small-centered">
-  
-  <input type="text" placeholder="Nombre de usuario" ng-model="control.username" >
-  <input type="password" placeholder="Contraseña" ng-model="control.password">
-  <input type="password" placeholder="Contraseña" ng-model="control.confirmPassword">
-  <input type="email" placeholder="Correo electronico" ng-model="control.email"> 
-  <p ng-show="control.error">Las contraseñas deben coincidir</p>   
+  <span class="error" ng-show="control.errorUsuario">El nombre de usuario o email ya esta en uso</span>
+  <form ng-submit="control.signup()" novalidate name="signup">
+  <input type="text" placeholder="Nombre de usuario" ng-model="control.username" required minlength="6" name="username" ng-model-options="{ updateOn: 'mousedown blur' }">
+  <p ng-show="signup.username.$error.minlength" class="error">Nombre de usuario muy corto </p>  
+
+  <input type="password" placeholder="Contraseña" ng-model="control.password" required minlength="6" name="password" ng-model-options="{ updateOn: 'mousedown blur' }">
+  <p ng-show="signup.password.$error.minlength" class="error">La contraseña es demasiado corta </p>  
+
+  <input type="password" placeholder="Contraseña" ng-model="control.confirmPassword" required minlength="6" ng-model-options="{ updateOn: 'mousedown blur' }">
+
+  <input type="email" placeholder="Correo electronico" ng-model="control.email" required name="email" ng-model-options="{ updateOn: 'mousedown blur' }"> 
+  <p ng-show="signup.email.$error.email" class="error">Ingrese un email valido </p>  
+
+  <p ng-show="control.error" class="error">Las contraseñas deben coincidir</p>   
   <a href="#/" class="alert button">
     Cancelar
   </a>
-  <button ng-click="control.signup()" class="success button">
+  <button type="submit" class="success button">
       Crear cuenta
   </button>
+  </form>
 </div></article>  

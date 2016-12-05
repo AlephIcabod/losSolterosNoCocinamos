@@ -78,7 +78,7 @@ router.get("/", login.autenticarAdmin, function (req, res, next) {
                     cliente: d
                   })
               } else {
-                res.status(500)
+                res.status(400)
                   .json({
                     message: "No se pudo crear el recurso cliente"
                   })

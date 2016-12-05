@@ -2,12 +2,15 @@
       <div class="row">
         <h1>Iniciar sesion</h1>
         <div class="small-8 small-centered">
+        <span ng-show="control.error" class="error">Nombre de usuario o contraseña incorrectos</span>
+        <form ng-submit="control.login()">
           <input type="text" placeholder="Nombre de usuario" ng-model="control.username" required>
           <input type="password" placeholder="Contraseña" ng-model="control.password" required>
           <a href="#/recuperarPassword"><u>Olvide mi contraseña</u></a>
-          <button class="success button" ng-click="control.login()">
+          <button type="submit" class="success button" >
               Ingresar
           </button>
+          </form>
         </div>
         <div class="small-12 small-centered">
           <label for="" >¿No tienes cuenta? </label>

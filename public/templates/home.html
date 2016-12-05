@@ -1,16 +1,14 @@
 <article>
-  <div class="row" data-equalizer="foo" ng-repeat="producto in control.productos">
-    <div class="small-3 columns" data-equalizer-watch>
-      <div class="panel" data-equalizer-watch="foo">
+  <div class="row"  ng-repeat="producto in control.productos">
+    <div class="small-3 columns">
+      <div class="panel" >
         <img src="{{producto.imagenes[0]}}" alt="">
-        <h5><b>{{producto.nombre_producto}}</b></h5>
-        <a href="#/producto/{{producto.id_producto}}" class="descripcion" data-open="uno">
-          <h6>{{producto.descripcion}}</h6>
+        <h5><b>{{producto.nombre_producto}}</b></h5>        
+          <h6>{{producto.descripcion}}</h6>        
+        <h6><u>$ {{producto.precio}}</u></h6>
+        <a href="#/producto/{{producto.id_producto}}" class="success button circular-derecho">
+        <i class="icon-plus"></i>
         </a>
-        <h6><u>{{producto.precio}}</u></h6>
-        <button type="button" class="success button radius">
-        Agregar a carrito
-        </button>
       </div>
     </div>   
   </div>

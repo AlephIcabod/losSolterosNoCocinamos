@@ -92,3 +92,15 @@ button{
 .alert.button{
 	float:right;
 }
+
+.ng-invalid input{
+	border:1px solid red;	
+}
+span.error{
+	color:red;	
+}
+a.circular-derecho{
+border-radius: 50%;
+float: right;
+font-weight: normal;
+}

@@ -15,12 +15,10 @@ var app = angular.module("app")
       },
       agregarAlCarrito: function (item) {
         if (!sessionStorage.getItem("carrito")) {
-          var id_cliente = sessionStorage.getItem("id_cliente") || 1;
           sessionStorage.setItem("carrito", JSON.stringify({
             productos: [],
             venta: {
-              total: 0,
-              id_cliente: id_cliente
+              total: 0
             }
           }));
         }
@@ -31,6 +29,42 @@ var app = angular.module("app")
       }
     }
   })
+  .controller("navController", ["$scope", "$location", "$auth", function ($scope, $location, $auth) {
+    var control = this;
+    $scope.logeado = $auth.isAuthenticated();
+    control.salir = function () {
+      $auth.logout()
+      $location.path("/");
+      $scope.logeado = false;
+    }
+  }])
+  .controller("registroController", ["$scope", "$location", "$http", function ($scope, $location, $http) {
+    if ($scope.$parent.usuario === undefined || $scope.$parent.email === undefined)
+      $location.path("/signup")
+    var control = this;
+
+    this.registrar = function () {
+      var cliente = {
+        correo: $scope.$parent.email,
+        id_usuario: $scope.$parent.usuario,
+        direccion: control.direccion,
+        telefono: control.telefono,
+        num_tarjeta: control.num_tarjeta,
+        nombre: control.nombre
+      };
+      $http.post("/api/cliente/", {
+          cliente: cliente
+        })
+        .success(function (d) {
+          $scope.$parent.usuario = d.cliente.id_usuario;
+          $location.path("/cuenta");
+        })
+        .catch(function (e) {
+          console.log("error", e)
+        })
+    }
+
+  }])
   .controller("homeController", ["peticiones", function (peticiones) {
     var control = this;
     this.productos;
@@ -38,7 +72,6 @@ var app = angular.module("app")
       .success(function (d) {
         control.productos = d.productos;
       });
-
   }])
   .controller("productoController", ["peticiones", "$routeParams", function (peticiones, $routeParams) {
     var control = this;
@@ -68,7 +101,6 @@ var app = angular.module("app")
       $auth.logout();
       $location.path("/login")
     }
-
     var control = this;
     control.usuario;
     $http.get("/api/usuario/" + $scope.$parent.usuario)
@@ -78,4 +110,14 @@ var app = angular.module("app")
       .error(function (e) {
         console.log(e)
       })
-  }]);
+  }])
+  .controller("adminController", [function () {
+    console.log("admin")
+  }])
+  .controller("carritoController", [function () {
+
+  }])
+  .controller("categoriaController", ["$location", function ($location) {
+
+  }])
+  .controller("promocionesController", [function () {}]);

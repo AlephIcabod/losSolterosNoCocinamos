@@ -6,27 +6,31 @@
     <title>Los solteros no cocinamos</title>
     <link rel="stylesheet" href="css/foundation.css">
     <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/style.css">
   </head>
-  <body>
-    <header>
+  <body ng-controller="navController as maincontrol">
+    <header  >
       <img src="/images/logo.png" alt="Logo">
         <div class = "row">
           <ul class="dropdown menu" data-dropdown-menu>
             <li>
-              <a href="#"><img src="images/dinner.png" alt="Menu"><b>Menu</b></a>
+              <a href="#/"><i class="icon-bell"></i><b>Menu</b></a>
               <ul class="menu">
-                <li><a href="#"><img src="images/plate-fork-and-knife.png" alt="Comidas"><b>Comidas</b></a></li>
-                <li><a href="#"><img src="images/tea-cup.png" alt="Bebidas"><b>Bebidas</b></a></li>
-                <li><a href="#"><img src="images/cupcake.png" alt="Postres"><b>Postres</b></a></li>
+                <li><a href="#/comidas"><i class="icon-spoon-knife"></i><b>Comidas</b></a></li>
+                <li><a href="#/bebidas"><i class="icon-glass"></i></i><b>Bebidas</b></a></li>
+                <li><a href="#/postres"><img src="images/cupcake.png" alt="Postres"><b>Postres</b></a></li>
               </ul>
             </li>
-            <li><a href="#"><img src="images/star.png" alt="Combos"><b>Combos y promociones</b></a></li>
-            <li><a href="#"><img src="images/shopping-cart.png" alt="Carrito"><b>Mi carrito</b></a></li>
-            <li><a href="#/cuenta"><img src="images/user.png" alt="User"><b>Mi cuenta</b></a></li>
+            <li><a href="#/promociones"><i class="icon-star-empty"></i><b>Combos y promociones</b></a></li>
+            <li><a href="#/carrito"><i class="icon-cart"></i><b>Mi carrito</b></a></li>
+            <li><a href="#/cuenta"><i class="icon-user"></i><b>Mi cuenta</b></a></li>
+            <li ng-show="logeado"><a ng-click="maincontrol.salir()">Salir</a></li>
+
           </ul>
         </div>
+        
       </header>
-
+       
     <section ng-view></section>
      
       <!-- index de cuando se da click-->

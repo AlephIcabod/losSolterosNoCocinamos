@@ -38,7 +38,6 @@ var registro = function (req, res, next) {
 }
 
 var login = function (req, res, next) {
-  console.log(req.body)
   Usuario.findOne({
       where: {
         username: req.body.username
@@ -53,6 +52,7 @@ var login = function (req, res, next) {
           res.status(200)
           .json({
             id_usuario: d.id_usuario,
+            email: d.email,
             token: service.createToken(d.username, aux)
           })
         else {
@@ -76,7 +76,7 @@ var autenticarAdmin = function (req, res, next) {
         message: "Tu petición no tiene cabecera de autorización"
       });
   }
-  var token = req.headers.authorization;
+  var token = req.headers.authorization.split(" ")[1];;
   var payload = jwt.decode(token, config.token_secret);
   if (payload.exp <= moment()
     .unix()) {
@@ -96,6 +96,7 @@ var autenticarAdmin = function (req, res, next) {
 };
 
 var autenticar = function (req, res, next) {
+  console.log("autenticando", req.body)
   if (!req.headers.authorization) {
     return res
       .status(403)
@@ -103,8 +104,10 @@ var autenticar = function (req, res, next) {
         message: "Tu petición no tiene cabecera de autorización"
       });
   }
-  var token = req.headers.authorization;
+  var token = req.headers.authorization.split(" ")[1];
   var payload = jwt.decode(token, config.token_secret);
+
+
   if (payload.exp <= moment()
     .unix()) {
     return res
