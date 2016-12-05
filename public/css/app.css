@@ -127,3 +127,12 @@ table{
 	margin-right: 2%;
 }
 
+.large-12{
+	display: inline;
+	text-align: center;
+}
+
+.large-12 table{
+	width: 100%;
+}
+
