@@ -136,3 +136,19 @@ table{
 	width: 100%;
 }
 
+.small-2 label,input{
+	display: inline-block;
+}
+
+.medium-9{
+	margin-top: 2%;
+}
+
+.subtotal h6{
+	display: block;
+	text-align: right;
+}
+
+.pagar{
+	padding-bottom: 25%;
+}
