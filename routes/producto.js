@@ -8,7 +8,8 @@ var sequelize = require("../conexion")
 var path = require("path");
 var multer = require("multer");
 var fs = require("fs");
-var login = require("../login")
+var login = require("../login");
+var moment = require("moment")
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -71,10 +72,26 @@ router.get('/', function (req, res, next) {
     Producto.findById(req.params.id)
       .then(function (d) {
         if (d) {
-          res.status(200)
-            .json({
-              producto: d
+          d.getPromocions()
+            .then(function (p) {
+              var aux = p.map(function (i) {
+                if (i.vigencia > moment()
+                  .unix()) {
+                  return {
+                    id_promocion: i.id_promocion,
+                    precioPromocion: i.ProductoPromocion.nuevoPrecio
+                  };
+                }
+
+              })
+              res.status(200)
+                .json({
+                  producto: d,
+                  promocion: aux
+                })
+
             })
+
         } else {
           res.status(404)
             .json({

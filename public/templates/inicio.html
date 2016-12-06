@@ -23,7 +23,14 @@
             </li>
             <li><a href="#/promociones"><i class="icon-star-empty"></i><b>Combos y promociones</b></a></li>
             <li><a href="#/carrito"><i class="icon-cart"></i><b>Mi carrito</b></a></li>
-            <li><a href="#/cuenta"><i class="icon-user"></i><b>Mi cuenta</b></a></li>
+            <li><a href="#/cuenta" ng-hide="admin"><i class="icon-user"></i><b>Mi cuenta</b></a></li>
+            <li><a href="#/cuenta" ng-show="admin"><i class="icon-user"></i><b>Mi cuenta</b></a>
+               <ul class="menu" >
+                <li><a href="#/gestionproductos"><b>Gestionar productos</b></a></li>
+                <li><a href="#/gestionpromociones"><b>Gestionar promociones</b></a></li>               
+              </ul>
+            </li>
+
             <li ng-show="logeado"><a ng-click="maincontrol.salir()">Salir</a></li>
 
           </ul>

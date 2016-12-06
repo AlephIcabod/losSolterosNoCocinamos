@@ -14,9 +14,10 @@
             $scope.$parent.usuario = d.data.id_usuario;
             $scope.$parent.logeado = true;
             if ($auth.getPayload()
-              .admin)
-              $location.path("/admin")
-            else
+              .admin) {
+              $location.path("/admin");
+              $scope.$parent.admin = true;
+            } else
               $location.path("/cuenta");
 
           })

@@ -36,6 +36,7 @@ var app = angular.module("app")
       $auth.logout()
       $location.path("/");
       $scope.logeado = false;
+      $scope.admin = false;
     }
   }])
   .controller("registroController", ["$scope", "$location", "$http", function ($scope, $location, $http) {
@@ -79,6 +80,7 @@ var app = angular.module("app")
     peticiones.getProducto($routeParams.id)
       .success(function (d) {
         control.producto = d.producto;
+        control.producto.precioPromocion = d.promocion[0].precioPromocion;
       });
     this.promociones;
     peticiones.getPromociones()
@@ -91,8 +93,12 @@ var app = angular.module("app")
         cantidad: control.cantidad,
         subtotal: control.cantidad * control.producto.precio
       }
+      if (control.producto.precioPromocion != undefined)
+        pro.subtotal = control.cantidad * control.producto.precioPromocion;
+
       peticiones.agregarAlCarrito(pro)
       peticiones.getCarrito()
+      control.agregado = true;
     }
   }])
   .controller("cuentaController", ["$scope", "$http", "$auth", "$location", function ($scope, $http, $auth, $location) {
