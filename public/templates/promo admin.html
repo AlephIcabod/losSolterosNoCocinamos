@@ -24,14 +24,14 @@
       <div class="row">
         <div class="medium-10 medium-centered columns">
           <h6>
-            <b>Categoria: </b>
+            <b>Tipo: </b>
             <select>
+              <option value="desayuno">Desayuno</option>
               <option value="comida">Comidas</option>
-              <option value="bebida">Bebidas</option>
-              <option value="postre">Postres</option>
+              <option value="cena">Cena</option>
             </select>
             <button class="warning button" data-open="uno">
-              Agregar Producto
+              Agregar Promocion
             </button>
           </h6>
         </div>
@@ -40,50 +40,48 @@
         <div class="callout" style="border: 1px solid rgb(156,193,84);">
           <img src="../images/hamburguesa.jpg" alt="" width="80px" height="80px">
           <h6><b>Hamburguesa</b><button class="button" data-open="uno">Editar</button></h6>
-          <h6>Descripcion de producto</h6>
+          <h6>Descripcion de la promocion</h6>
           <h6><u>$50.00</u><button class="alert button">Eliminar</button></h6>
         </div>
       </div>
       <div id="uno" class="small-12 small-centered columns reveal" data-reveal>
-        <h5><b>Agregar producto</b></h5>
-        <input type="text" placeholder="Nombre del producto">
-        <textarea name="" id="" placeholder="Descripcion del producto"></textarea>
-        <h6><b>Seleccione las categorias:</b></h6>
-        <table width="100" class="productos">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Categoria</th>
-            </tr>
-          </thead>
+        <h5><b>Agregar promocion</b></h5>
+        <input type="text" placeholder="Nombre de la promocion">
+        <textarea name="" id="" placeholder="Descripcion de la promocion"></textarea>
+        <h6>Tipo:</h6>
+        <select>
+            <option value="desayuno">Desayuno</option>
+            <option value="comida">Comidas</option>
+            <option value="cena">Cena</option>
+          </select>
+        <input type="date" placeholder="Fecha de vigencia">
+        <h6><b>Agregue productos a su promocion</b></h6>
+        <div class="table-scroll">
+          <table>
           <tbody>
             <tr>
               <td><input type="checkbox"></td>
-              <td><label for="">Comida</label></td>
+              <td><label for="">Hamburguesa con queso</label></td>
             </tr>
             <tr>
               <td><input type="checkbox"></td>
-              <td><label for="">Bebida</label></td>
+              <td><label for="">Refresco</label></td>
             </tr>
             <tr>
               <td><input type="checkbox"></td>
-              <td><label for="">Postres</label></td>
+              <td><label for="">Albondigas</label></td>
             </tr>
           </tbody>
         </table>
-        <h6><b>Imagenes:</b></h6>
-        <div class="imagenes">
-          <img class = "th" src="../images/hamburguesa.jpg">
-          <img class = "th" src="../images/hamburguesa.jpg">
-          <img class = "th" src="../images/hamburguesa.jpg">
         </div>
-        <br>
-        <div class="sube">
-          <label for="upload" class="button upload">Selecciona archivos</label><input type="file" id="upload" class="show-for-sr">
+        <h6><b>Precio:</b></h6>
+        <div class="input-group">
+          <span class="input-group-label">$</span>
+          <input class="input-group-field" type="number">
         </div>
-        <input type="text" placeholder="Precio" class="precio">
+
         <div class="large-12 large-centered columns">
-          <button class="success button">Agregar producto</button>
+          <button class="success button">Agregar promocion</button>
           <button class="alert button">Cancelar</button>
         </div>
         <a class="close-button" data-close>&#215;</a>
