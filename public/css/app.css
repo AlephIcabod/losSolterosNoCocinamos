@@ -152,3 +152,18 @@ button{
 .pagar{
 	padding-bottom: 25%;
 }
+
+.imagen-perfil{
+	display: inline-block;
+	text-align: center;
+}
+
+.imagen-perfil img,div{
+	display: block;
+	margin-bottom: 1%;
+}
+
+.botones button{
+	display: inline-block;
+	margin-right: 10%; 
+}
