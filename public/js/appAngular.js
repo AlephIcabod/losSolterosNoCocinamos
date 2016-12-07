@@ -82,13 +82,31 @@
           templateUrl: "templates/producto.html",
           authenticated: false
         })
-        .when("/admin", {
-          controller: "adminController",
+        .when("/postres", {
+          controller: "categoriaController",
           controllerAs: "control",
-          templateUrl: "templates/admin.html",
-          resolve: {
-            mostrar: revisarAdmin
-          }
+          templateUrl: "templates/categoria.html",
+        })
+        .when("/bebidas", {
+          controller: "categoriaController",
+          controllerAs: "control",
+          templateUrl: "templates/categoria.html",
+        })
+        .when("/comidas", {
+          controller: "categoriaController",
+          controllerAs: "control",
+          templateUrl: "templates/categoria.html",
+        })
+        .when("/promociones", {
+          controller: "promocionesController",
+          controllerAs: "control",
+          templateUrl: "templates/promociones.html",
+        })
+        .when("/carrito", {
+          controller: "carritoController",
+          controllerAs: "control",
+          templateUrl: "templates/carrito.html",
+          authenticated: true
         })
         .when("/cuenta", {
           controller: "cuentaController",
@@ -116,36 +134,34 @@
             skip: omitir
           }
         })
-        .when("/carrito", {
-          controller: "carritoController",
-          controllerAs: "control",
-          templateUrl: "templates/carrito.html",
-          authenticated: true
-        })
-        .when("/postres", {
-          controller: "categoriaController",
-          controllerAs: "control",
-          templateUrl: "templates/categoria.html",
-        })
-        .when("/bebidas", {
-          controller: "categoriaController",
-          controllerAs: "control",
-          templateUrl: "templates/categoria.html",
-        })
-        .when("/comidas", {
-          controller: "categoriaController",
-          controllerAs: "control",
-          templateUrl: "templates/categoria.html",
-        })
-        .when("/promociones", {
-          controller: "promocionesController",
-          controllerAs: "control",
-          templateUrl: "templates/promociones.html",
-        })
         .when("/registro-cliente", {
           controller: "registroController",
           controllerAs: "control",
           templateUrl: "templates/registro.html"
+        })
+        .when("/admin", {
+          controller: "adminController",
+          controllerAs: "control",
+          templateUrl: "templates/admin.html",
+          resolve: {
+            mostrar: revisarAdmin
+          }
+        })
+        .when("/admin/gestionproductos", {
+          controller: "adminController",
+          controllerAs: "control",
+          templateUrl: "templates/gestionproductos.html",
+          resolve: {
+            mostrar: revisarAdmin
+          }
+        })
+        .when("/admin/gestionpromocioness", {
+          controller: "adminController",
+          controllerAs: "control",
+          templateUrl: "templates/gestionpromociones.html",
+          resolve: {
+            mostrar: revisarAdmin
+          }
         })
         .otherwise("/")
     })
