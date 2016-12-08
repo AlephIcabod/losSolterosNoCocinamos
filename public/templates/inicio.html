@@ -22,17 +22,20 @@
               </ul>
             </li>
             <li><a href="#/promociones"><i class="icon-star-empty"></i><b>Combos y promociones</b></a></li>
-            <li><a href="#/carrito"><i class="icon-cart"></i><b>Mi carrito</b></a></li>            
-            <li><a href="#/cuenta" ng-hide="admin"><i class="icon-user"></i><b>Mi cuenta</b></a></li>
-            <li><a href="#/cuenta" ng-show="admin"><i class="icon-user"></i><b>Mi cuenta</b></a>
+            <li><a href="#/carrito"><i class="icon-cart"></i><b>Mi carrito</b></a></li>                    
+            <li><a href="#/cuenta" ng-hide="logeado"><i class="icon-user"></i></a></li>
+            <li ng-show="logeado"><a href="#/cuenta" ng-hide="admin"><i class="icon-user"></i><b>{{username}}</b></a>
+                <ul>
+                  <li><a ng-click="maincontrol.salir()">Salir</a></li>
+                </ul>
+            </li>
+            <li><a href="#/cuenta" ng-show="admin"><i class="icon-user"></i><b>{{username}}</b></a>
                <ul class="menu" >
                 <li><a href="#/admin/gestionproductos"><b>Gestionar productos</b></a></li>
                 <li><a href="#/admin/gestionpromociones"><b>Gestionar promociones</b></a></li>               
+                <li ng-show="logeado"><a ng-click="maincontrol.salir()">Salir</a></li>
               </ul>
             </li>
-
-            <li ng-show="logeado"><a ng-click="maincontrol.salir()">Salir</a></li>
-
           </ul>
         </div>
         

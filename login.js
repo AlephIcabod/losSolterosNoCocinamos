@@ -53,6 +53,7 @@ var login = function (req, res, next) {
           .json({
             id_usuario: d.id_usuario,
             email: d.email,
+            username: d.username,
             token: service.createToken(d.username, aux)
           })
         else {

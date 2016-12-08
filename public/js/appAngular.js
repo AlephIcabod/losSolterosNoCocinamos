@@ -13,6 +13,7 @@
           .then(function (d) {
             $scope.$parent.usuario = d.data.id_usuario;
             $scope.$parent.logeado = true;
+            $scope.$parent.username = d.data.username;
             if ($auth.getPayload()
               .admin) {
               $location.path("/admin");
@@ -46,6 +47,8 @@
                   $scope.$parent.usuario = d.data.id_usuario;
                   $scope.$parent.logeado = true;
                   $scope.$parent.email = d.data.email;
+                  $scope.$parent.username = d.data.username
+
                   $location.path("/registro-cliente");
                 })
                 .catch(function (e) {

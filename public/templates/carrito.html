@@ -1,3 +1,47 @@
 <article>
-	Carrito
+	<div class="row" ng-show="control.pagoRealizado">
+		<h2>Su pago se ha realizado con exito, gracias por su preferencia</h2>
+		<a href="#/cuenta">Ir a mi cuenta</a>
+	</div>
+	
+	<div class="row" ng-show="control.carrito.productos.length>0">
+		<div class="large-9 medium-10 small centered columns">
+			<div ng-repeat="producto in control.carrito.productos">
+				<div class="callout">
+					<div class="small-2">
+						<img src="{{producto.thumbnail}}" alt="" height="80px" width="80px">
+					</div>
+					<h6><b>{{producto.nombre_producto}}</b></h6>
+					<div class="small-2 columns">
+						<label for="" class="right"><b>Cantidad</b></label>
+						<input type="number" ng-model="producto.cantidad" min=1 ng-click="control.cambio($index)" ng-keyup="control.cambio($index)" max=10>
+					</div>
+					<h6>Precio Unitario</h6>$ {{producto.precio_unitario}}.00
+					<h6>Subtotal</h6>$ {{producto.subtotal}}.00
+					<button class="cancelar" ng-click="control.eliminar(producto.id_producto)"><i class="icon-cart"></i></button>
+				</div>
+			</div>
+			<div class="medium-4 columns">
+				<div class="callout subtotal">
+					<h6><b>Total: </b>{{control.carrito.venta.total}}</h6>
+					<hr>
+				</div>
+			</div>
+		</div>
+		<div class="medium-3 columns">
+			<div class="callout pagar">
+				<h6>
+				<b>Resumen del carrito</b>
+				</h6>
+				<hr>
+				<h6>Total: ${{control.carrito.venta.total}}
+				</h6>
+				<button class="success button" ng-click="control.pagar()">Proceder a pagar</button>
+			</div>
+		</div>
+	</div>
+	<div class="row" ng-hide="control.carrito.productos.length>0">
+		<h2>El carrito esta vacio</h2>
+		<a href="#/">Ir a comprar</a>
+	</div>
 </article>
