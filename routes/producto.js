@@ -74,20 +74,24 @@ router.get('/', function (req, res, next) {
         if (d) {
           d.getPromocions()
             .then(function (p) {
-              var aux = p.map(function (i) {
-                if (i.vigencia > moment()
-                  .unix()) {
-                  return {
-                    id_promocion: i.id_promocion,
-                    precioPromocion: i.ProductoPromocion.nuevoPrecio
-                  };
+              var aux = p.filter(function (i) {
+                if (i.vigencia >= new Date()) {
+                  return i;
                 }
+              })
 
+              aux = aux.map(function (i) {
+                return {
+                  id_promocion: i.id_promocion,
+                  precioPromocion: i.ProductoPromocion.nuevoPrecio,
+                  vigencia: i.vigencia,
+                  descripcion: i.descripcion
+                };
               })
               res.status(200)
                 .json({
                   producto: d,
-                  promocion: aux
+                  promociones: aux
                 })
 
             })

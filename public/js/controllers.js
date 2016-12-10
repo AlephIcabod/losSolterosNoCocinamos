@@ -25,12 +25,11 @@ var app = angular.module("app")
         var carrito = JSON.parse(sessionStorage.getItem("carrito"));
         var aux = -1;
         for (i = 0; i < carrito.productos.length; i++) {
-          if (carrito.productos[i].id_producto === item.id_producto) {
+          if (carrito.productos[i].id_producto === item.id_producto && carrito.productos[i].precio_unitario === item.precio_unitario) {
             aux = i;
             break;
           }
         }
-        console.log("encontrado", aux)
         if (aux < 0) {
           carrito.productos.push(item);
         } else {
@@ -61,7 +60,8 @@ var app = angular.module("app")
     if ($scope.$parent.usuario === undefined || $scope.$parent.email === undefined)
       $location.path("/signup")
     var control = this;
-    this.nombre = ""
+    control.cliente = {};
+    control.cliente.nombre = "Nombre";
     this.registrar = function () {
       var cliente = {
         correo: $scope.$parent.email,
@@ -69,14 +69,12 @@ var app = angular.module("app")
         direccion: control.direccion,
         telefono: control.telefono,
         num_tarjeta: control.num_tarjeta,
-        nombre: control.nombre
+        nombre: control.cliente.nombre
       };
-      console.log(cliente);
       $http.post("/api/cliente/", {
           cliente: cliente
         })
         .success(function (d) {
-          console.log(d)
           $scope.$parent.usuario = d.cliente.id_usuario;
           $location.path("/cuenta");
         })
@@ -89,6 +87,7 @@ var app = angular.module("app")
   .controller("homeController", ["peticiones", function (peticiones) {
     var control = this;
     this.productos;
+    control.categoria = "Todos los productos";
     peticiones.getProductos()
       .success(function (d) {
         control.productos = d.productos;
@@ -97,17 +96,24 @@ var app = angular.module("app")
   .controller("productoController", ["peticiones", "$routeParams", function (peticiones, $routeParams) {
     var control = this;
     this.producto;
+    control.promociones = [];
+    control.tienePromocion = false;
     peticiones.getProducto($routeParams.id)
       .success(function (d) {
         control.producto = d.producto;
-        if (d.promocion.length > 0)
-          control.producto.precioPromocion = d.promocion[0].precioPromocion;
+        control.promociones = d.promociones;
+        if (d.promociones.length > 0)
+          control.tienePromocion = true;
       });
-    this.promociones;
+
+
     peticiones.getPromociones()
       .success(function (d) {
-        control.promociones = d.promociones;
+        console.log(d);
+        control.promos = d.promociones;
       })
+
+
     this.agregarAlCarrito = function () {
       var pro = {
         id_producto: control.producto.id_producto,
@@ -116,7 +122,7 @@ var app = angular.module("app")
         thumbnail: control.producto.imagenes[0],
         precio_unitario: control.producto.precio
       }
-      if (control.producto.precioPromocion != undefined) {
+      if (control.producto.precioPromocion != undefined && control.producto.precioPromocion !== "") {
         pro.precio_unitario = control.producto.precioPromocion;
       }
       pro.subtotal = pro.cantidad * pro.precio_unitario
@@ -132,13 +138,39 @@ var app = angular.module("app")
     }
     var control = this;
     control.usuario;
-    $http.get("/api/usuario/" + $scope.$parent.usuario)
+    $http.get("/api/cliente/" + $scope.$parent.usuario)
       .success(function (d) {
         control.usuario = d.usuario;
+        control.cliente = d.cliente;
+        control.sinGuardar = JSON.parse(JSON.stringify(control.cliente));
+
       })
       .error(function (e) {
         console.log(e)
       })
+
+    $http.get("/api/cliente/" + $scope.$parent.usuario + "/ventas")
+      .success(function (d) {
+        control.compras = d.ventas;
+      })
+      .catch(function (e) {
+        console.log(e)
+      })
+
+    this.deshacer = function () {
+      control.cliente = control.sinGuardar;
+    }
+
+    this.actualizarDatos = function () {
+      $http.put("/api/cliente/" + control.cliente.id_cliente, {
+          cliente: control.cliente
+        })
+        .success(function (d) {
+          control.cliente = d.cliente;
+          control.sinGuardar = JSON.parse(JSON.stringify(control.cliente));
+        })
+    }
+
   }])
   .controller("adminController", [function () {
     console.log("admin")
@@ -154,14 +186,14 @@ var app = angular.module("app")
     } else {
       this.carrito = peticiones.getCarrito()
     }
-    this.eliminar = function (id_producto) {
+    this.eliminar = function (id_producto, precio_unitario) {
       control.carrito.productos.forEach(function (i) {
-        if (i.id_producto == id_producto) {
+        if (i.id_producto == id_producto && i.precio_unitario == parseInt(precio_unitario)) {
           control.carrito.venta.total -= i.subtotal;
         }
       })
       control.carrito.productos = control.carrito.productos.filter(function (item) {
-        if (item.id_producto != id_producto)
+        if (item.id_producto != id_producto || item.precio_unitario != precio_unitario)
           return item;
       })
       control.carrito = peticiones.actualizarCarrito(control.carrito);
@@ -195,6 +227,7 @@ var app = angular.module("app")
               productos: [],
               venta: {}
             });
+            control.carrito = peticiones.getCarrito();
             control.pagoRealizado = true;
 
           })
@@ -207,7 +240,38 @@ var app = angular.module("app")
       }
     }
   }])
-  .controller("categoriaController", ["$location", function ($location) {
+  .controller("categoriaController", ["$location", "peticiones", function ($location, peticiones) {
+    var control = this;
+    categoria = $location.path()
+      .substring(1);
+    var categoria = categoria.substring(0, categoria.length - 1)
+    this.categoria = categoria[0].toUpperCase() + categoria.substring(1) + "s";
+    peticiones.getProductos()
+      .success(function (d) {
+        control.productos = d.productos.filter(function (i) {
+          if (i.categorias[0] == categoria)
+            return i;
+        });
+      })
+
 
   }])
-  .controller("promocionesController", [function () {}]);
+  .controller("promocionesController", ["$http", function ($http) {
+    var control = this;
+    $http.get("/api/promocion")
+      .success(function (d) {
+        console.log(d);
+        control.promociones = d.promociones;
+      })
+
+
+  }])
+  .controller("promocionController", ["$routeParams", "$http", function ($routeParams, $http) {
+    var control = this;
+    var id = $routeParams.id;
+    $http.get("/api/promocion/" + id)
+      .success(function (d) {
+        control.productos = d.productos;
+        control.promocion = d.promocion;
+      })
+  }]);

@@ -18,34 +18,7 @@ var storage = multer.diskStorage({
 var upload = multer({
   storage: storage
 });
-
-router.post("/", upload.single("avatar"), function (req, res, next) {
-    var avatar = req.file;
-    var usuario = req.body.usuario;
-    if (avatar === null || avatar === undefined) {
-      usuario.avatar = "public/images/avatar/default.jpg";
-    } else {
-      usuario.avatar = avatar.path;
-    }
-    Usuario.create(usuario)
-      .then(function (d) {
-        res.status(201)
-          .json({
-            usuario: {
-              username: d.username,
-              avatar: d.avatar,
-              id_usuario: d.id_usuario,
-              tipo: d.tipo
-            }
-          });
-      })
-      .catch(function (e) {
-        res.status(500)
-          .json({
-            message: "Error, nombre de usuario ya existente"
-          });
-      })
-  })
+router
   .get("/:id", function (req, res, next) {
     Usuario.findById(req.params.id)
       .then(function (d) {
@@ -88,12 +61,13 @@ router.post("/", upload.single("avatar"), function (req, res, next) {
         }
       })
   })
-  .put("/:id/avatar", login.autenticar, upload.single("avatar"), function (req, res, next) {
+  .post("/avatar/:id", login.autenticar, upload.single("avatar"), function (req, res, next) {
     var avatar = req.file;
+    console.log(avatar)
     Usuario.findById(req.params.id)
       .then(function (d) {
         if (d) {
-          if (d.avatar !== "public/images/avatar/default.jpg") {
+          if (d.avatar !== "uploads/avatar/default.jpg") {
             fs.unlinkSync(d.avatar);
           }
           d.avatar = avatar.path;
@@ -129,7 +103,7 @@ router.post("/", upload.single("avatar"), function (req, res, next) {
     Usuario.findById(req.params.id)
       .then(function (d) {
         if (d) {
-          if (d.avatar !== "public/images/avatar/default.jpg")
+          if (d.avatar !== "uploads/avatar/default.jpg")
             fs.unlinkSync(d.avatar);
           Usuario.destroy({
               where: {

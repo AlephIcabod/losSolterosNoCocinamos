@@ -1,3 +1,15 @@
 <article>
-	promociones
+	<h1>Promociones</h1>
+  <div class="row" ng-repeat="promocion in control.promociones">      
+    <div class="large-3 small-12 columns itemProducto" >
+      <div class="panel" >
+        <img src="{{promocion.Productos[0].imagenes[1]}}" alt="">
+        <h5><b>{{promocion.descripcion}}</b></h5>        
+          <h6>{{promocion.vigencia}}</h6>                
+        <a href="#/promocion/{{promocion.id_promocion}}" class="success button circular-derecho">
+        <i class="icon-plus"></i>
+        </a>
+      </div>
+    </div>   
+  </div>
 </article>

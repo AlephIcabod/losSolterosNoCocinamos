@@ -7,7 +7,13 @@ var Sequelize = require("Sequelize");
 var login = require("../login");
 
 router.get("/", function (req, res, next) {
+    console.log(Date.now())
     Promocion.findAll({
+        where: {
+          vigencia: {
+            $between: [new Date(), "12/12/2018"]
+          }
+        },
         include: [{
           model: Producto
         }]
@@ -29,7 +35,7 @@ router.get("/", function (req, res, next) {
             id_promocion: item.id_promocion,
             descripcion: item.descripcion,
             vigencia: item.vigencia,
-            tip: item.tipo
+            tipo: item.tipo
           }
         })
         res.status(200)

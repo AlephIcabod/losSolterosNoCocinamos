@@ -31,7 +31,9 @@ Usuario.sync({
     force: true
   })
   .then(function (e) {
-    Cliente.sync()
+    Cliente.sync({
+        force: true
+      })
       .then(function (e) {
         Venta.sync()
           .then(function (e) {

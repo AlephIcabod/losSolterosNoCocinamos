@@ -12,8 +12,7 @@ var registro = function (req, res, next) {
     tipo: req.body.tipo,
     email: req.body.email
   };
-
-  usuario.avatar = "public/images/avatar/default.jpg";
+  usuario.avatar = "uploads/avatar/default.jpg";
   Usuario.create(usuario)
     .then(function (d) {
       if (d.tipo == "admin") aux = true;
@@ -97,7 +96,6 @@ var autenticarAdmin = function (req, res, next) {
 };
 
 var autenticar = function (req, res, next) {
-  console.log("autenticando", req.body)
   if (!req.headers.authorization) {
     return res
       .status(403)

@@ -6,6 +6,7 @@ var Venta = require("../models/venta")
 var multer = require("multer");
 var fs = require("fs");
 var login = require("../login");
+var Producto = require("../models/producto")
 
 router.get("/", login.autenticarAdmin, function (req, res, next) {
     Cliente.findAll({
@@ -26,30 +27,57 @@ router.get("/", login.autenticarAdmin, function (req, res, next) {
       });
   })
   .get("/:id", login.autenticar, function (req, res, next) {
-    Cliente.findById(req.params.id)
-      .then(function (d) {
-        if (d) {
-          res.status(200)
-            .json({
-              cliente: d
+    Usuario.findById(req.params.id)
+      .then(function (u) {
+        if (u) {
+          Cliente.findOne({
+              where: {
+                id_usuario: req.params.id
+              }
+            })
+            .then(function (d) {
+              if (d) {
+                res.status(200)
+                  .json({
+                    cliente: d,
+                    usuario: {
+                      id_usuario: u.id_usuario,
+                      email: u.email,
+                      avatar: u.avatar,
+                      username: u.username
+                    }
+                  })
+              } else {
+                res.status(404)
+                  .json({
+                    message: "Cliente no encontrado"
+                  });
+              }
             })
         } else {
-          res.status(404)
-            .json({
-              message: "Cliente no encontrado"
-            });
+          req.status(404)
+            .send("Usuario no encontrado")
         }
+
       })
+
   })
   .get("/:id/ventas", login.autenticar, function (req, res, next) {
-    Cliente.findById(req.params.id)
+    Cliente.findOne({
+        where: {
+          id_usuario: req.params.id
+        }
+      })
       .then(function (cliente) {
         if (cliente) {
           var id = cliente.id_cliente;
           Venta.findAll({
               where: {
                 id_cliente: id
-              }
+              },
+              include: [{
+                model: Producto
+              }]
             })
             .then(function (ventas) {
               res.status(200)
@@ -108,9 +136,23 @@ router.get("/", login.autenticarAdmin, function (req, res, next) {
       })
       .then(function (d, i) {
         if (d) {
-          res.status(200)
-            .json({
-              cliente: d[1][0]
+          Usuario.update({
+              correo: d[1][0].correo
+            }, {
+              where: {
+                id_usuario: d[1][0].id_usuario
+              }
+            })
+            .then(function (u) {
+              if (u) {
+                res.status(200)
+                  .json({
+                    cliente: d[1][0]
+                  })
+              } else {
+                res.status(500)
+                  .send("Error al actualizar");
+              }
             })
         } else {
           res.status(500)

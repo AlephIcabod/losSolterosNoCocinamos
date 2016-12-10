@@ -88,22 +88,27 @@
         .when("/postres", {
           controller: "categoriaController",
           controllerAs: "control",
-          templateUrl: "templates/categoria.html",
+          templateUrl: "templates/home.html",
         })
         .when("/bebidas", {
           controller: "categoriaController",
           controllerAs: "control",
-          templateUrl: "templates/categoria.html",
+          templateUrl: "templates/home.html",
         })
         .when("/comidas", {
           controller: "categoriaController",
           controllerAs: "control",
-          templateUrl: "templates/categoria.html",
+          templateUrl: "templates/home.html",
         })
         .when("/promociones", {
           controller: "promocionesController",
           controllerAs: "control",
           templateUrl: "templates/promociones.html",
+        })
+        .when("/promocion/:id", {
+          controller: "promocionController",
+          controllerAs: "control",
+          templateUrl: "templates/promocion.html"
         })
         .when("/carrito", {
           controller: "carritoController",
