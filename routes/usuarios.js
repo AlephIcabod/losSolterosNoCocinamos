@@ -63,7 +63,6 @@ router
   })
   .post("/avatar/:id", login.autenticar, upload.single("avatar"), function (req, res, next) {
     var avatar = req.file;
-    console.log(avatar)
     Usuario.findById(req.params.id)
       .then(function (d) {
         if (d) {
@@ -71,18 +70,21 @@ router
             fs.unlinkSync(d.avatar);
           }
           d.avatar = avatar.path;
-          Usuario.update(d, {
+
+          Usuario.update({
+              avatar: d.avatar
+            }, {
               where: {
                 id_usuario: req.params.id
               },
               returning: true
             })
-            .then(function (d) {
-              if (d[0] > 0) {
+            .then(function (u) {
+              if (u[0] > 0) {
                 res.status(200)
                   .json({
                     message: "Avatar actualizado correctamente",
-                    usuario: d[1][0]
+                    usuario: u[1][0]
                   })
               } else {
                 res.status(500)

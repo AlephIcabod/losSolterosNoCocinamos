@@ -1,46 +1,44 @@
 <article>
-	<div class="row">
-         <div class="large-6 columns">
-           <div class="callout imagen-perfil">
-             <img src="{{control.usuario.avatar}}" alt="imagen" width="300px" height="300px" style=" margin-bottom: 3%;">
-             <div>                          	
-               <input type="file" id="avatar" name="avatar">
-               	<button type="submit">Actualizar</button>                              	
-              
-             </div>
-           </div>
-         </div>
-         <div class="large-6 columns">
-           <div class="callout">
-           <form ng-submit="control.actualizarDatos()">
-             <h6><b>Nombre: </b><input type="text" ng-model="control.cliente.nombre" required></h6>
-             <h6><b>Direccion:</b><input type="text" ng-model="control.cliente.direccion" required></h6>
-             <h6><b>Telefono: </b><input type="text" ng-model="control.cliente.telefono" required></h6>
-             <h6><b>Correo: </b><input type="email" ng-model="control.cliente.correo" required></h6>
-             <h6><b>Numero de tarjeta: </b><input type="text" maxlength="16" ng-model="control.cliente.num_tarjeta"></h6>
-             <div class="row botones">
-               <button class="alert button" ng-click="control.deshacer()" >Deshacer cambio</button>
-               <button type="submit" class="success button" >Actualizar datos</button> 
-             </div>
-            </form>
-             
-           </div>
-         </div>
-       </div>
-       <div class="row">
-         <div class="large-10 large-centered columns">
-           <div class="callout">
-             <h6><b>Mis ultimas compras</b></h6>
-             <div class="large-12 large-centered columns">
-              <div class="callout" ng-repeat="compra in control.compras">
-               <div class="callout" ng-repeat="producto in compra.Productos">
-                 <h6><b>{{producto.nombre_producto}}</b></h6>
-                 <p>{{producto.descripcion}}</p>                                                                 
-               </div>
-               <p>{{compra.total}}</p>
-               </div>
-             </div>
-           </div>
-         </div>
-       </div>
+  <div class="row">
+    <div class="large-6 columns">
+      <div class="callout imagen-perfil">
+        <img src="{{control.usuario.avatar}}" alt="imagen" width="300px" height="300px" style=" margin-bottom: 3%;">  <form action="">
+            <input type="file" file-model="control.avatar" name="avatar">
+            <button type="button" ng-click="control.enviar()">Cambiar Avatar</button>
+          </form>        
+      </div>
+    </div>
+    <div class="large-6 columns">
+      <div class="callout">
+        <form ng-submit="control.actualizarDatos()">
+          <h6><b>Nombre: </b><input type="text" ng-model="control.cliente.nombre" required></h6>
+          <h6><b>Direccion:</b><input type="text" ng-model="control.cliente.direccion" required></h6>
+          <h6><b>Telefono: </b><input type="text" ng-model="control.cliente.telefono" required></h6>
+          <h6><b>Correo: </b><input type="email" ng-model="control.cliente.correo" required></h6>
+          <h6><b>Numero de tarjeta: </b><input type="text" maxlength="16" ng-model="control.cliente.num_tarjeta"></h6>
+          <div class="row botones">
+            <button class="alert button" ng-click="control.deshacer()" >Deshacer cambio</button>
+            <button type="submit" class="success button" >Actualizar datos</button>
+          </div>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-10 large-centered columns">
+      <div class="callout">
+        <h6><b>Mis ultimas compras</b></h6>
+        <div class="large-12 large-centered columns">
+          <div class="callout" ng-repeat="compra in control.compras">
+            <div class="callout" ng-repeat="producto in compra.Productos">
+              <h6><b>{{producto.nombre_producto}}</b></h6>
+              <p>{{producto.descripcion}}</p>
+            </div>
+            <p>{{compra.total}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </article>

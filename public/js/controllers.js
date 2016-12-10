@@ -132,6 +132,7 @@ var app = angular.module("app")
     }
   }])
   .controller("cuentaController", ["$scope", "$http", "$auth", "$location", function ($scope, $http, $auth, $location) {
+
     if ($scope.$parent.usuario === undefined) {
       $auth.logout();
       $location.path("/login")
@@ -170,6 +171,27 @@ var app = angular.module("app")
           control.sinGuardar = JSON.parse(JSON.stringify(control.cliente));
         })
     }
+
+    this.enviar = function () {
+      var file = control.avatar;
+      var fd = new FormData();
+      fd.append('avatar', file);
+      $http.post('/api/usuario/avatar/' + $scope.$parent.usuario, fd, {
+          transformRequest: angular.identity,
+          headers: {
+            'Content-Type': undefined
+          }
+        })
+        .success(function (response) {
+          control.usuario = response.usuario;
+        })
+        .error(function (response) {
+          console.log("error", response)
+        });
+    }
+
+
+
 
   }])
   .controller("adminController", [function () {
@@ -274,4 +296,19 @@ var app = angular.module("app")
         control.productos = d.productos;
         control.promocion = d.promocion;
       })
+  }])
+  .directive('fileModel', ['$parse', function ($parse) {
+    return {
+      restrict: 'A',
+      link: function (scope, element, attrs) {
+        var model = $parse(attrs.fileModel);
+        var modelSetter = model.assign;
+
+        element.bind('change', function () {
+          scope.$apply(function () {
+            modelSetter(scope, element[0].files[0]);
+          });
+        });
+      }
+    };
   }]);
